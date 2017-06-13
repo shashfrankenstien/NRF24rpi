@@ -21,7 +21,7 @@ radio2.setRetries(15,15)
 
 radio2.setPayloadSize(32)
 radio2.setChannel(0x60)
-radio2.setDataRate(NRF24.BR_2MBPS)
+radio2.setDataRate(NRF24.BR_250KBPS)
 radio2.setPALevel(NRF24.PA_MIN)
 
 radio2.setAutoAck(True)
