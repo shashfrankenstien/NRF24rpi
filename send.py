@@ -30,7 +30,7 @@ radio.enableAckPayload()
 
 
 radio.openWritingPipe(pipes[1])
-# radio.openReadingPipe(1, pipes[0])
+radio.openReadingPipe(1, pipes[0])
 radio.printDetails()
 
 
