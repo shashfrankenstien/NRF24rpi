@@ -16,6 +16,8 @@ pipes = [[0xe7, 0xe7, 0xe7, 0xe7, 0xe7], [0xc2, 0xc2, 0xc2, 0xc2, 0xc2]]
 
 radio2 = NRF24(GPIO, spidev.SpiDev())
 radio2.begin(1, 17)
+time.sleep(1)
+radio2.ce(NRF24.HIGH)
 
 radio2.setRetries(15,15)
 
