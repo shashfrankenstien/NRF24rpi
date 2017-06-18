@@ -16,7 +16,7 @@ import spidev
 pipes = [[0xe7, 0xe7, 0xe7, 0xe7, 0xe7], [0xc2, 0xc2, 0xc2, 0xc2, 0xc2]]
 
 radio = NRF24(GPIO, spidev.SpiDev())
-radio.begin(0, 18)
+radio.begin(0, 17)
 time.sleep(1)
 radio.ce(NRF24.HIGH)
 radio.setRetries(15,15)
@@ -24,7 +24,7 @@ radio.setPayloadSize(32)
 radio.setChannel(0x60)
 
 radio.setDataRate(NRF24.BR_250KBPS)
-radio.setPALevel(NRF24.PA_MIN)
+radio.setPALevel(NRF24.PA_MAX)
 radio.setAutoAck(True)
 radio.enableDynamicPayloads()
 radio.enableAckPayload()
@@ -50,5 +50,5 @@ while True:
         print ("Received back:"),
         print (pl_buffer)
     else:
-        print ("Received: Ack only, no payload")
+        print ("Received: no payload")
     time.sleep(10)
