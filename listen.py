@@ -34,9 +34,10 @@ radio2.openWritingPipe(pipes[0])
 radio2.openReadingPipe(1, pipes[1])
 radio2.printDetails()
 
-radio2.startListening()
+
 
 while True:
+	radio2.startListening()
 
     while not radio2.available(0):
         time.sleep(1/100.0)
@@ -47,3 +48,7 @@ while True:
 
     print("Translating..")
     print(''.join([chr(n) for n in recv_buffer if n >= 32 and n <= 126]))
+    radio2.stopListening()
+    buf = ['H', 'E', 'L', 'O']
+    # send a packet to receiver
+    radio2.write(buf)

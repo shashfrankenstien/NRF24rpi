@@ -35,20 +35,18 @@ radio.openReadingPipe(1, pipes[0])
 radio.printDetails()
 
 
-c=1
 while True:
-    buf = ['H', 'E', 'L', 'O',c]
-    c = (c + 1) & 255
+    buf = ['H', 'E', 'L', 'O']
     # send a packet to receiver
     radio.write(buf)
     print ("Sent:"),
     print (buf)
     # did it return with a payload?
-    if radio.isAckPayloadAvailable():
-        pl_buffer=[]
-        radio.read(pl_buffer, radio.getDynamicPayloadSize())
-        print ("Received back:"),
-        print (pl_buffer)
-    else:
-        print ("Received: no payload")
-    time.sleep(10)
+    # if radio.isAckPayloadAvailable():
+    #     pl_buffer=[]
+    #     radio.read(, radio.getDynamicPayloadSize())
+    #     print ("Received back:"),
+    #     print (pl_buffer)
+    # else:
+    #     print ("Received: no payload")
+    time.sleep(5)
