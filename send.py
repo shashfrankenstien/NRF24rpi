@@ -13,15 +13,15 @@ import spidev
 
 
 
-pipes = [[0xe7, 0xe7, 0xe7, 0xe7, 0xe7], [0xc2, 0xc2, 0xc2, 0xc2, 0xc2]]
+pipes = [[0xE8, 0xE8, 0xF0, 0xF0, 0xE1], [0xF0, 0xF0, 0xF0, 0xF0, 0xE1]]
 
 radio = NRF24(GPIO, spidev.SpiDev())
 radio.begin(0, 17)
 time.sleep(1)
-radio.ce(NRF24.HIGH)
-radio.setRetries(15,15)
+# radio.ce(NRF24.HIGH)
+# radio.setRetries(15,15)
 radio.setPayloadSize(32)
-radio.setChannel(0x60)
+radio.setChannel(0x76)
 
 radio.setDataRate(NRF24.BR_250KBPS)
 radio.setPALevel(NRF24.PA_MAX)
