@@ -23,7 +23,7 @@ time.sleep(1)
 
 radio2.setPayloadSize(32)
 radio2.setChannel(0x76)
-radio2.setDataRate(NRF24.BR_250KBPS)
+radio2.setDataRate(NRF24.BR_1MBPS)
 radio2.setPALevel(NRF24.PA_MAX)
 
 radio2.setAutoAck(True)
