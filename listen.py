@@ -39,16 +39,16 @@ radio2.printDetails()
 while True:
 	radio2.startListening()
 
-    while not radio2.available(0):
-        time.sleep(1/100.0)
+	while not radio2.available(0):
+		time.sleep(1/100.0)
 
-    recv_buffer = []
-    radio2.read(recv_buffer, radio2.getDynamicPayloadSize())
-    print("Received: {}".format(str(recv_buffer)))
+	recv_buffer = []
+	radio2.read(recv_buffer, radio2.getDynamicPayloadSize())
+	print("Received: {}".format(str(recv_buffer)))
 
-    print("Translating..")
-    print(''.join([chr(n) for n in recv_buffer if n >= 32 and n <= 126]))
-    radio2.stopListening()
-    buf = ['H', 'E', 'L', 'O']
-    # send a packet to receiver
-    radio2.write(buf)
+	print("Translating..")
+	print(''.join([chr(n) for n in recv_buffer if n >= 32 and n <= 126]))
+	radio2.stopListening()
+	buf = ['H', 'E', 'L', 'O']
+	# send a packet to receiver
+	radio2.write(buf)
