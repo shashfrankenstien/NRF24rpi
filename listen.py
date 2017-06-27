@@ -46,5 +46,5 @@ try:
 		print(''.join([chr(n) for n in recv_buffer if n >= 32 and n <= 126]))
 
 except:
-	radio.closeReadingPipe(pipes[1])
+	radio.closeReadingPipe(1)
 	radio.end()
