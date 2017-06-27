@@ -45,7 +45,7 @@ while True:
 
 	# print("Translating..")
 	print(''.join([chr(n) for n in recv_buffer if n >= 32 and n <= 126]))
-	ack = ['k']
+	ack = [ord('k')]
 	radio.writeAckPayload(1, ack, len(ack))
 
 # except Exception as e:
