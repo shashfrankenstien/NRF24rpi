@@ -4,7 +4,6 @@
 # Example program to send packets to the radio link
 #
 
-
 import RPi.GPIO as GPIO
 GPIO.setmode(GPIO.BCM)
 from lib_nrf24 import NRF24
@@ -18,18 +17,18 @@ pipes = [[0xe7, 0xe7, 0xe7, 0xe7, 0xe7], [0xc2, 0xc2, 0xc2, 0xc2, 0xc2]]
 radio = NRF24(GPIO, spidev.SpiDev())
 radio.begin(0, 17)
 time.sleep(1)
-radio2.setPayloadSize(32)
-radio2.setChannel(0x60)
+radio.setPayloadSize(32)
+radio.setChannel(0x60)
 
-radio2.setDataRate(NRF24.BR_2MBPS)
-radio2.setPALevel(NRF24.PA_MAX)
-radio2.setAutoAck(True)
-radio2.enableDynamicPayloads()
-radio2.enableAckPayload()
+radio.setDataRate(NRF24.BR_2MBPS)
+radio.setPALevel(NRF24.PA_MAX)
+radio.setAutoAck(True)
+radio.enableDynamicPayloads()
+radio.enableAckPayload()
 
-radio2.openWritingPipe(pipes[1])
+radio.openWritingPipe(pipes[1])
 # radio2.openReadingPipe(1, pipes[1])
-radio2.printDetails()
+radio.printDetails()
 
 # radio2.startListening()
 
