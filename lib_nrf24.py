@@ -581,7 +581,7 @@ class NRF24:
 
     def closeReadingPipe(self, pipe):
         self.write_register(NRF24.EN_RXADDR,
-            self.read_register(EN_RXADDR) & ~_BV(NRF24.child_pipe_enable[pipe]))
+            self.read_register(NRF24.EN_RXADDR) & ~_BV(NRF24.child_pipe_enable[pipe]))
 
 
     def toggle_features(self):
