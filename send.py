@@ -28,6 +28,7 @@ radio.enableDynamicPayloads()
 radio.enableAckPayload()
 
 radio.openWritingPipe(pipes[1])
+time.sleep(1)
 # radio2.openReadingPipe(1, pipes[1])
 radio.printDetails()
 

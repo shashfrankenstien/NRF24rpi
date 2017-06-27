@@ -28,6 +28,7 @@ radio.enableAckPayload()
 
 # radio2.openWritingPipe(pipes[0])
 radio.openReadingPipe(1, pipes[1])
+time.sleep(1)
 radio.printDetails()
 
 radio.startListening()
