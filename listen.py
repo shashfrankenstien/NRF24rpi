@@ -45,6 +45,8 @@ try:
 
 		# print("Translating..")
 		print(''.join([chr(n) for n in recv_buffer if n >= 32 and n <= 126]))
+		ack = list('Got it')
+		radio.writeAckPayload(1, ack, len(ack))
 
 except:
 	radio.closeReadingPipe(1)
