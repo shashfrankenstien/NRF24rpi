@@ -55,8 +55,8 @@ try:
         if radio.isAckPayloadAvailable():
             ack = []
             radio.read(ack, radio.getDynamicPayloadSize())
-            print (ack)
-            # print(''.join([chr(n) for n in ack if n >= 32 and n <= 126]))
+            # print (ack)
+            print(''.join([chr(n) for n in ack if n >= 32 and n <= 126]))
         time.sleep(5)
 except:
     radio.end()
