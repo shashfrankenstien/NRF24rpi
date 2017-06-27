@@ -32,15 +32,19 @@ radio.printDetails()
 
 radio.startListening()
 
+try:
+	while True:
 
-while True:
+		while not radio.available(0):
+			time.sleep(1/100.0)
 
-	while not radio.available(0):
-		time.sleep(1/100.0)
+		recv_buffer = []
+		radio.read(recv_buffer, radio.getDynamicPayloadSize())
+		# print("Received: {}".format(str(recv_buffer)))
 
-	recv_buffer = []
-	radio.read(recv_buffer, radio.getDynamicPayloadSize())
-	# print("Received: {}".format(str(recv_buffer)))
+		# print("Translating..")
+		print(''.join([chr(n) for n in recv_buffer if n >= 32 and n <= 126]))
 
-	# print("Translating..")
-	print(''.join([chr(n) for n in recv_buffer if n >= 32 and n <= 126]))
+except:
+	radio.closeReadingPipe(pipes[1])
+	radio.end()

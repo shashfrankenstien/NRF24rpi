@@ -33,22 +33,25 @@ radio.printDetails()
 
 # radio2.startListening()
 
+try:
+    while True:
+        try:
+            buf = list(str(sys.argv[1]))
+        except:
+            buf = list('Yo yo honey singh')
+        # send a packet to receiver
+        radio.write(buf)
+        print ("Sent:"),
+        print (buf)
+        # did it return with a payload?
+        # if radio.isAckPayloadAvailable():
+        #     pl_buffer=[]
+        #     radio.read(, radio.getDynamicPayloadSize())
+        #     print ("Received back:"),
+        #     print (pl_buffer)
+        # else:
+        #     print ("Received: no payload")
+        time.sleep(5)
+except:
+    radio.end()
 
-while True:
-    try:
-        buf = list(str(sys.argv[1]))
-    except:
-        buf = list('Yo yo honey singh')
-    # send a packet to receiver
-    radio.write(buf)
-    print ("Sent:"),
-    print (buf)
-    # did it return with a payload?
-    # if radio.isAckPayloadAvailable():
-    #     pl_buffer=[]
-    #     radio.read(, radio.getDynamicPayloadSize())
-    #     print ("Received back:"),
-    #     print (pl_buffer)
-    # else:
-    #     print ("Received: no payload")
-    time.sleep(5)
