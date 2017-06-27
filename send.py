@@ -35,8 +35,10 @@ radio.printDetails()
 
 
 while True:
-    print (sys.argv[1])
-    buf = list('Yo yo honey singh')
+    try:
+        buf = list(str(sys.argv[1]))
+    except:
+        buf = list('Yo yo honey singh')
     # send a packet to receiver
     radio.write(buf)
     print ("Sent:"),
