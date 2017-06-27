@@ -48,6 +48,7 @@ try:
 		ack = list('Got it')
 		radio.writeAckPayload(1, ack, len(ack))
 
-except:
+except Exception as e:
+	print (e)
 	radio.closeReadingPipe(1)
 	radio.end()
