@@ -26,7 +26,7 @@ radio.setAutoAck(True)
 radio.enableDynamicPayloads()
 radio.enableAckPayload()
 
-radio.openWritingPipe(pipes[0])
+radio.openWritingPipe(pipes[1])
 # radio2.openReadingPipe(1, pipes[1])
 radio.printDetails()
 
