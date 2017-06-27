@@ -14,8 +14,8 @@ import spidev
 
 pipes = [[0xe7, 0xe7, 0xe7, 0xe7, 0xe7], [0xc2, 0xc2, 0xc2, 0xc2, 0xc2]]
 
-radio = NRF24(GPIO, spidev.SpiDev())
-radio.begin(0, 17)
+radio2 = NRF24(GPIO, spidev.SpiDev())
+radio2.begin(0, 17)
 time.sleep(1)
 radio2.setPayloadSize(32)
 radio2.setChannel(0x60)
