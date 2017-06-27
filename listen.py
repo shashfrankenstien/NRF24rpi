@@ -33,22 +33,23 @@ radio.printDetails()
 
 radio.startListening()
 
+try:
+	while True:
 
-while True:
+		while not radio.available(0):
+			time.sleep(1/100.0)
 
-	while not radio.available(0):
-		time.sleep(1/100.0)
+		recv_buffer = []
+		radio.read(recv_buffer, radio.getDynamicPayloadSize())
+		# print("Received: {}".format(str(recv_buffer)))
 
-	recv_buffer = []
-	radio.read(recv_buffer, radio.getDynamicPayloadSize())
-	# print("Received: {}".format(str(recv_buffer)))
+		# print("Translating..")
+		print(''.join([chr(n) for n in recv_buffer if n >= 32 and n <= 126]))
+		ack = [ord(x) for x in 'Got your message']
+		radio.writeAckPayload(1, ack, len(ack))
 
-	# print("Translating..")
-	print(''.join([chr(n) for n in recv_buffer if n >= 32 and n <= 126]))
-	ack = [ord('k')]
-	radio.writeAckPayload(1, ack, len(ack))
-
-# except Exception as e:
-# 	print (e)
-# 	radio.closeReadingPipe(1)
-# 	radio.end()
+except Exception as e:
+	print (e)
+	radio.closeReadingPipe(1)
+	radio.end()
+	
