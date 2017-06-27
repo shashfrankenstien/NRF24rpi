@@ -9,6 +9,7 @@ GPIO.setmode(GPIO.BCM)
 from lib_nrf24 import NRF24
 import time
 import spidev
+import sys
 
 
 
@@ -34,7 +35,8 @@ radio.printDetails()
 
 
 while True:
-    buf = ['H', 'E', 'L', 'O']
+    print (sys.argv[1])
+    buf = list('Yo yo honey singh')
     # send a packet to receiver
     radio.write(buf)
     print ("Sent:"),
