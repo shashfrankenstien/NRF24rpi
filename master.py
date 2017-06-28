@@ -37,6 +37,7 @@ def listenForResp(timeout=4):
     now = time.time()
     while not radio.available(0) and time.time()<now+timeout:
         time.sleep(1/100)
+    if time.time()>now+timeout: print('timeout')
     resp = []
     radio.read(resp, radio.getDynamicPayloadSize())
     print('Resp:'),
