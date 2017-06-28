@@ -34,6 +34,7 @@ radio.printDetails()
 radio.startListening()
 
 try:
+	flush = 1
 	while True:
 
 		while not radio.available(0):
@@ -45,10 +46,13 @@ try:
 
 		# print("Translating..")
 		print(''.join([chr(n) for n in recv_buffer if n >= 32 and n <= 126]))
-		print('calculating..')
-		time.sleep(1)
-		ack = [ord(x) for x in 'recvd']
-		radio.writeAckPayload(1, ack, len(ack))
+		if flush > 3:
+			print('calculating..')
+			time.sleep(3)
+			ack = [ord(x) for x in 'recvd']
+			radio.writeAckPayload(1, ack, len(ack))
+			flush=0
+		flush+=1
 
 except Exception as e:
 	print (e)
