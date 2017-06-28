@@ -48,10 +48,9 @@ try:
 		print(''.join([chr(n) for n in recv_buffer if n >= 32 and n <= 126]))
 		if flush > 3:
 			print('calculating..')
-			time.sleep(3)
+			time.sleep(5)
 			ack = [ord(x) for x in 'recvd']
 			radio.writeAckPayload(1, ack, len(ack))
-			flush=0
 		flush+=1
 
 except Exception as e:
