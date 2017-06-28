@@ -47,7 +47,7 @@ try:
 		# print("Translating..")
 		print(''.join([chr(n) for n in recv_buffer if n >= 32 and n <= 126]))
 		if flush > 2:
-			print('calculating..')
+			print('replying..')
 			time.sleep(2)
 			ack = [ord(x) for x in 'recvd']
 			radio.writeAckPayload(1, ack, len(ack))
