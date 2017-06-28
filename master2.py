@@ -51,8 +51,10 @@ try:
         ack = []
         radio.read(ack, radio.getDynamicPayloadSize())
         if ack:
-            print('slave:'),
-            print(''.join([chr(n) for n in ack if n >= 32 and n <= 126]))
+            ackCH = ''.join([chr(n) for n in ack if n >= 32 and n <= 126])
+            if ackCH=='recvd':
+                print('slave:'),
+                print(ackCH)
         time.sleep(5)
 
         # time.sleep(2)
