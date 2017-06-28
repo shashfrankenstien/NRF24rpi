@@ -29,34 +29,37 @@ radio.enableAckPayload()
 
 radio.openWritingPipe(pipes[1])
 time.sleep(1)
-# radio2.openReadingPipe(1, pipes[1])
+radio.openReadingPipe(1, pipes[0])
 radio.printDetails()
 
-# radio2.startListening()
+def listenForResp(timeout=4):
+    radio.startListening()
+    now = time.time()
+    while not radio.available(0) and time.time()<now+timeout:
+        time.sleep(1/100)
+    resp = []
+    radio.read(resp, radio.getDynamicPayloadSize())
+    print('Resp:'),
+    print(''.join([chr(n) for n in resp if n >= 32 and n <= 126]))
+    radio.stopListening()
 
 try:
     while True:
         try:
             buf = list(str(sys.argv[1]))
         except:
-            buf = list('Yo yo honey singh')
+            buf = list('mhyg')
         # send a packet to receiver
         radio.write(buf)
         print ("Sent:"),
         print (buf)
-        # did it return with a payload?
-        # if radio.isAckPayloadAvailable():
-        #     pl_buffer=[]
-        #     radio.read(, radio.getDynamicPayloadSize())
-        #     print ("Received back:"),
-        #     print (pl_buffer)
-        # else:
-        #     print ("Received: no payload")
+
         if radio.isAckPayloadAvailable():
             ack = []
             radio.read(ack, radio.getDynamicPayloadSize())
             print('slave:'),
             print(''.join([chr(n) for n in ack if n >= 32 and n <= 126]))
+            listenForResp()
         time.sleep(5)
 except:
     radio.end()

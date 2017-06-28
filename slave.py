@@ -26,12 +26,17 @@ radio.setAutoAck(True)
 radio.enableDynamicPayloads()
 radio.enableAckPayload()
 
-# radio2.openWritingPipe(pipes[0])
+radio2.openWritingPipe(pipes[0])
 radio.openReadingPipe(1, pipes[1])
 time.sleep(1)
 radio.printDetails()
 
 radio.startListening()
+
+def sendData():
+	radio.stopListening()
+	radio.write(list('25'))
+	radio.startListening()
 
 try:
 	while True:
@@ -44,9 +49,13 @@ try:
 		# print("Received: {}".format(str(recv_buffer)))
 
 		# print("Translating..")
-		print(''.join([chr(n) for n in recv_buffer if n >= 32 and n <= 126]))
-		ack = [ord(x) for x in 'recvd']
-		radio.writeAckPayload(1, ack, len(ack))
+		msg = ''.join([chr(n) for n in recv_buffer if n >= 32 and n <= 126])
+		print(msg)
+		if msg=='mhyg':
+			ack = [ord(x) for x in 'recvd']
+			radio.writeAckPayload(1, ack, len(ack))
+			sendData()
+		
 
 except Exception as e:
 	print (e)
