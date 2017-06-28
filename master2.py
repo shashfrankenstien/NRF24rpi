@@ -57,8 +57,9 @@ try:
             time.sleep(1/100.0)
         ack = []
         radio.read(ack, radio.getDynamicPayloadSize())
-        print('slave:'),
-        print(''.join([chr(n) for n in ack if n >= 32 and n <= 126]))
+        if ack:
+            print('slave:'),
+            print(''.join([chr(n) for n in ack if n >= 32 and n <= 126]))
         time.sleep(5)
 except:
     radio.end()
