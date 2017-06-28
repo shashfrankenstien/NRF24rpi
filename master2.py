@@ -45,24 +45,24 @@ try:
         print ("Sent:"),
         print (buf)
     
-        # now = time.time()
-        # while not radio.isAckPayloadAvailable() and time.time()<now+3:
-        #     time.sleep(1/100.0)
-        # ack = []
-        # radio.read(ack, radio.getDynamicPayloadSize())
-        # if ack:
-        #     print('slave:'),
-        #     print(''.join([chr(n) for n in ack if n >= 32 and n <= 126]))
-        # time.sleep(5)
-
-        time.sleep(2)
-        if radio.isAckPayloadAvailable():
-            ack = []
-            radio.read(ack, radio.getDynamicPayloadSize())
-            if ack:
-                print('slave:'),
-                print(''.join([chr(n) for n in ack if n >= 32 and n <= 126]))
+        now = time.time()
+        while not radio.isAckPayloadAvailable() and time.time()<now+3:
+            time.sleep(1/100.0)
+        ack = []
+        radio.read(ack, radio.getDynamicPayloadSize())
+        if ack:
+            print('slave:'),
+            print(''.join([chr(n) for n in ack if n >= 32 and n <= 126]))
         time.sleep(5)
+
+        # time.sleep(2)
+        # if radio.isAckPayloadAvailable():
+        #     ack = []
+        #     radio.read(ack, radio.getDynamicPayloadSize())
+        #     if ack:
+        #         print('slave:'),
+        #         print(''.join([chr(n) for n in ack if n >= 32 and n <= 126]))
+        # time.sleep(5)
 except:
     radio.end()
 
