@@ -19,15 +19,16 @@ class NRF_Receiver(NRFtxrxBase):
 	def __init__(self):
 		super(self.__class__, self).__init__()
 		self.subscriptions = [self._default_trigger]
-		self.build()
-		self.setup_as_reader()
+		self.build_receiver()
 		self.radio.printDetails()
 
+	def build_receiver(self):
+		self.build()
+		self.setup_as_reader()
 
 	def _default_trigger(self, msg):
 		print('InSubscribed'),
 		print(str(msg))
-
 
 	def subscribe(self, func):
 		self.subscriptions.append(func)
@@ -77,8 +78,6 @@ class NRF_Receiver(NRFtxrxBase):
 			print(command)
 			ack = [ord(x) for x in 'recvd']
 			self.radio.writeAckPayload(1, ack, len(ack))
-
-
 
 	def run(self):
 		try:
