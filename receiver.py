@@ -22,8 +22,13 @@ class NRF_Receiver(object):
 	def __init__(self):
 		self.radio = None
 		self.built = False
+		self.subscriptions = [self._default_trigger]
 		self.build()
 		self.radio.printDetails()
+
+	def _default_trigger(self, msg):
+		print(str(msg))
+
 
 	def build(self):
 		print('Begining radio')
@@ -60,9 +65,17 @@ class NRF_Receiver(object):
 			# print("Received: {}".format(str(recv_buffer)))
 
 			# print("Translating..")
-			print(''.join([chr(n) for n in recv_buffer if n >= 32 and n <= 126]))
+			command = ''.join([chr(n) for n in recv_buffer if n >= 32 and n <= 126])
+			for func in self.subscriptions:
+				try:
+					func(command)
+				except Exception as e:
+					print(e)
+
+			print(command)
 			ack = [ord(x) for x in 'recvd']
 			self.radio.writeAckPayload(1, ack, len(ack))
+
 
 	def kill(self):
 		if self.built:
@@ -85,6 +98,10 @@ class NRF_Receiver(object):
 		except Exception as e:
 			self.kill()
 			error(e)
+
+	def subscribe(self, func):
+		self.subscriptions.append(func)
+
 
 if __name__ == '__main__':
 	r = NRF_Receiver()
