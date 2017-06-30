@@ -13,16 +13,18 @@ class NRF_Master(NRFtxrxBase):
         super(self.__class__, self).__init__()
         self.setup_as_writer()
         self.radio.printDetails()
+        self.msg_id = 0
+        self.message_tracker = {}
 
     def _send(self, msg):
-        try:
-            buf = list(str(sys.argv[1]))
-        except:
-            buf = list(msg)
+        ID = str(self.msg_id).zfill(3)
+        buf = list('{}|{}'.format(ID, str(msg)))
+
         # send a packet to receiver
         self.radio.write(buf)
         print ("Sent:"),
         print (buf)
+        self.message_tracker[ID] = msg
 
         if self.radio.isAckPayloadAvailable():
             ack = []
@@ -34,12 +36,24 @@ class NRF_Master(NRFtxrxBase):
             return ack
         return None
 
+    def _incrMsgId(self):
+        self.msg_id = (self.msg_id+1)%1000
+
 
     def ping(self, n=4):
+        ID = None
         try:
             count = 1
             while True:
-                self._send('PING'+str(count))
+                ack = self._send('PING'): 
+                if ack:
+                    try:
+                        ID, ACK = ack.split('|')
+                    except Exception as e:
+                        print(e)
+                    if ID and ID in self.message_tracker and self.message_tracker[ID]=='PING' and ACK == 'PONG': 
+                        self._incrMsgId()
+                        del self.message_tracker[ID]
                 time.sleep(5)
                 count += 1
                 if count > n:
@@ -50,8 +64,8 @@ class NRF_Master(NRFtxrxBase):
             self.setup_as_writer()
 
 
-    def send(self, msg):
-        return self._send(str(msg))
+    def send(self, msg, n=3):
+        resp = self._send(str(msg))
 
 
 

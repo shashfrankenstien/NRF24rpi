@@ -16,9 +16,12 @@ class NRF_Slave(NRFtxrxBase):
 		self.subscriptions = [self._default_trigger]
 		self.setup_as_reader()
 		self.radio.printDetails()
+		message_tracker = {}
 		
 
 	def _default_trigger(self, msg):
+		if msg=='PING':
+			return 'PONG'
 		print('Built-in >'),
 		print(str(msg))
 
@@ -40,15 +43,25 @@ class NRF_Slave(NRFtxrxBase):
 			recv_buffer = []
 			self.radio.read(recv_buffer, self.radio.getDynamicPayloadSize())
 
-			command = ''.join([chr(n) for n in recv_buffer if n >= 32 and n <= 126])
+			string = ''.join([chr(n) for n in recv_buffer if n >= 32 and n <= 126])
+			ID, msg = string.split('|')
+			
+			if ID not in self.message_tracker:
+				ack = [ord(x) for x in '{}|WAIT'.format(ID)]
+				self.radio.writeAckPayload(1, ack, len(ack))
+				self.message_tracker[ID]=None
+			elif self.message_tracker[ID]:
+				ack = [ord(x) for x in '{}|{}'.format(ID, str(self.message_tracker[ID]))]
+				self.radio.writeAckPayload(1, ack, len(ack))
+
 			for func in self.subscriptions:
 				try:
-					func(command)
+					self.message_tracker[ID] = func(msg)
 				except Exception as e:
 					print(e)
+					self.message_tracker[ID] = str(e)
 
-			ack = [ord(x) for x in 'recvd']
-			self.radio.writeAckPayload(1, ack, len(ack))
+			
 
 	def run(self):
 		try:
