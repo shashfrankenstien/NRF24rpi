@@ -9,11 +9,13 @@ GPIO.setmode(GPIO.BCM)
 from lib_nrf24 import NRF24
 import time
 import spidev
-
+import sys, os
 
 
 pipes = [[0xe7, 0xe7, 0xe7, 0xe7, 0xe7], [0xc2, 0xc2, 0xc2, 0xc2, 0xc2]]
 
+def error(e):
+		print((e, sys.exc_info()[0].__name__, os.path.basename(sys.exc_info()[2].tb_frame.f_code.co_filename), sys.exc_info()[2].tb_lineno))
 
 class NRF_Receiver(object):
 
@@ -63,5 +65,6 @@ try:
 		receiver = None
 except Exception as e:
 	print (e)
+	error(e)
 	
 	
