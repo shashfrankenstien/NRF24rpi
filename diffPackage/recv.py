@@ -11,7 +11,7 @@ import time
 pipes = [[0xe7, 0xe7, 0xe7, 0xe7, 0xe7], [0xc2, 0xc2, 0xc2, 0xc2, 0xc2]]
 
 radio = NRF24()
-radio.begin(1, 0, 17, 18)
+radio.begin(0, 0, 17, 18)
 
 radio.setRetries(15,15)
 
