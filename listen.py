@@ -47,6 +47,8 @@ class NRF_Receiver(object):
 					print('flushing')
 					self.radio.flush_rx()
 					self.radio.flush_tx()
+					start_time = time.time()
+					break
 					# self.radio.closeReadingPipe(1)
 					# self.radio.powerDown()
 					# self.radio = None
