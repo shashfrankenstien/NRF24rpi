@@ -35,7 +35,7 @@ class NRF_Receiver(object):
 		time.sleep(1)
 		self.radio.printDetails()
 
-	def run(self)
+	def run(self):
 		self.radio.startListening()
 		while True:
 			start_time = time.time()
