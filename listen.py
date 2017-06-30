@@ -43,7 +43,7 @@ class NRF_Receiver(object):
 		while True:
 			start_time = time.time()
 			while not self.radio.available(0):
-				if time.time()-start_time>30:
+				if time.time()-start_time>20:
 					self.radio.closeReadingPipe(1)
 					# self.radio.end()
 					self.radio.powerDown()
