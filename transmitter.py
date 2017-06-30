@@ -38,7 +38,8 @@ class NRF_Master(NRFtxrxBase):
                 count += 1
                 if count > n:
                     raise Exception('Ping complete')
-        except:
+        except Exception as e:
+            print(e)
             self.kill()
 
 if __name__ == '__main__':
