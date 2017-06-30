@@ -48,8 +48,9 @@ class NRF_Receiver(object):
 		self.radio.startListening()
 		start_time = time.time()
 		while True:
+			quiet_time = time.time()
 			while not self.radio.available(0):
-				if time.time()-start_time>60:
+				if time.time()-start_time>60 or time.time()-quiet_time>15:
 					self.kill()
 					return
 				time.sleep(1/100.0)
@@ -72,7 +73,7 @@ class NRF_Receiver(object):
 			self.radio.powerDown()
 			self.radio = None
 			self.built = False
-			
+
 
 	def run(self):
 		try:
