@@ -4,11 +4,8 @@
 # Example program to receive packets from the radio link
 #
 
-import RPi.GPIO as GPIO
-GPIO.setmode(GPIO.BCM)
-from lib_nrf24 import NRF24
+from nrftxrx import NRFtxrxBase
 import time
-import spidev
 import sys, os
 
 
@@ -17,36 +14,40 @@ pipes = [[0xe7, 0xe7, 0xe7, 0xe7, 0xe7], [0xc2, 0xc2, 0xc2, 0xc2, 0xc2]]
 def error(e):
 		print((e, sys.exc_info()[0].__name__, os.path.basename(sys.exc_info()[2].tb_frame.f_code.co_filename), sys.exc_info()[2].tb_lineno))
 
-class NRF_Receiver(object):
+class NRF_Receiver(NRFtxrxBase):
 
 	def __init__(self):
-		self.radio = None
-		self.built = False
+		super(self.__class__, self).__init__()
 		self.subscriptions = [self._default_trigger]
 		self.build()
+		self.setup_as_reader()
 		self.radio.printDetails()
+
 
 	def _default_trigger(self, msg):
 		print(str(msg))
 
 
-	def build(self):
-		print('Begining radio')
-		self.radio = NRF24(GPIO, spidev.SpiDev())
-		self.radio.begin(0, 17)
-		time.sleep(1)
-		self.radio.setPayloadSize(32)
-		self.radio.setChannel(0x60)
+	def subscribe(self, func):
+		self.subscriptions.append(func)
+		
+	# def build(self):
+	# 	print('Begining radio')
+	# 	self.radio = NRF24(GPIO, spidev.SpiDev())
+	# 	self.radio.begin(0, 17)
+	# 	time.sleep(0.4)
+	# 	self.radio.setPayloadSize(32)
+	# 	self.radio.setChannel(0x60)
 
-		self.radio.setDataRate(NRF24.BR_250KBPS)
-		self.radio.setPALevel(NRF24.PA_MAX)
-		self.radio.setAutoAck(True)
-		self.radio.enableDynamicPayloads()
-		self.radio.enableAckPayload()
+	# 	self.radio.setDataRate(NRF24.BR_250KBPS)
+	# 	self.radio.setPALevel(NRF24.PA_MAX)
+	# 	self.radio.setAutoAck(True)
+	# 	self.radio.enableDynamicPayloads()
+	# 	self.radio.enableAckPayload()
 
-		# radio2.openWritingPipe(pipes[0])
-		self.radio.openReadingPipe(1, pipes[1])
-		self.built = True
+	# 	# radio2.openWritingPipe(pipes[0])
+	# 	self.radio.openReadingPipe(1, pipes[1])
+	# 	self.built = True
 
 
 	def _run(self):
@@ -77,16 +78,6 @@ class NRF_Receiver(object):
 			self.radio.writeAckPayload(1, ack, len(ack))
 
 
-	def kill(self):
-		if self.built:
-			print('Killing')
-			self.radio.flush_rx()
-			self.radio.flush_tx()
-			self.radio.closeReadingPipe(1)
-			self.radio.powerDown()
-			self.radio = None
-			self.built = False
-
 
 	def run(self):
 		try:
@@ -99,8 +90,7 @@ class NRF_Receiver(object):
 			self.kill()
 			error(e)
 
-	def subscribe(self, func):
-		self.subscriptions.append(func)
+
 
 
 if __name__ == '__main__':
