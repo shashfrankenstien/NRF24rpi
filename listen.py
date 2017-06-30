@@ -20,6 +20,7 @@ def error(e):
 class NRF_Receiver(object):
 
 	def __init__(self):
+		print('Begining radio')
 		self.radio = NRF24(GPIO, spidev.SpiDev())
 		self.radio.begin(0, 17)
 		time.sleep(1)
@@ -46,6 +47,7 @@ class NRF_Receiver(object):
 					self.radio.closeReadingPipe(1)
 					self.radio.end()
 					self.radio.powerDown()
+					self.radio = None
 					return
 				time.sleep(1/100.0)
 
