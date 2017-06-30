@@ -97,5 +97,5 @@ class NRF_Master(NRFtxrxBase):
 if __name__ == '__main__':
     t = NRF_Master()
     t.ping(5)
-    print(t.send('Hello', 4))
+    print(t.send('Hello', 5))
     t.kill()
