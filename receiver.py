@@ -33,24 +33,6 @@ class NRF_Receiver(NRFtxrxBase):
 	def subscribe(self, func):
 		self.subscriptions.append(func)
 
-	# def build(self):
-	# 	print('Begining radio')
-	# 	self.radio = NRF24(GPIO, spidev.SpiDev())
-	# 	self.radio.begin(0, 17)
-	# 	time.sleep(0.4)
-	# 	self.radio.setPayloadSize(32)
-	# 	self.radio.setChannel(0x60)
-
-	# 	self.radio.setDataRate(NRF24.BR_250KBPS)
-	# 	self.radio.setPALevel(NRF24.PA_MAX)
-	# 	self.radio.setAutoAck(True)
-	# 	self.radio.enableDynamicPayloads()
-	# 	self.radio.enableAckPayload()
-
-	# 	# radio2.openWritingPipe(pipes[0])
-	# 	self.radio.openReadingPipe(1, pipes[1])
-	# 	self.built = True
-
 
 	def _run(self):
 		self.radio.startListening()
@@ -84,7 +66,7 @@ class NRF_Receiver(NRFtxrxBase):
 			while True:
 				if not self.built: 
 					print('Restarting')
-					self.build()
+					self.build_receiver()
 				self._run()
 		except Exception as e:
 			self.kill()
