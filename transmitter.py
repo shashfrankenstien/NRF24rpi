@@ -38,7 +38,7 @@ class NRF_Master(NRFtxrxBase):
         return None
 
     def _incrMsgId(self):
-        self.msg_id = (self.msg_id+1)%1000
+        self.msg_id = (self.msg_id+2)%1000
 
     def _getCurrentMsgId(self):
         return str(self.msg_id).zfill(3)
