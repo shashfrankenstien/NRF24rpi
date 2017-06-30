@@ -20,7 +20,6 @@ class NRF_Master(NRFtxrxBase):
         except:
             buf = list(msg)
         # send a packet to receiver
-        buf += list(str(count))
         self.radio.write(buf)
         print ("Sent:"),
         print (buf)
@@ -40,7 +39,7 @@ class NRF_Master(NRFtxrxBase):
         try:
             count = 1
             while True:
-                self._send('PING')
+                self._send('PING'+str(count))
                 time.sleep(5)
                 count += 1
                 if count > n:
