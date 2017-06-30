@@ -20,6 +20,12 @@ def error(e):
 class NRF_Receiver(object):
 
 	def __init__(self):
+		self.radio = None
+		self.built = False
+		self.build()
+		self.radio.printDetails()
+
+	def build(self):
 		print('Begining radio')
 		self.radio = NRF24(GPIO, spidev.SpiDev())
 		self.radio.begin(0, 17)
@@ -35,21 +41,16 @@ class NRF_Receiver(object):
 
 		# radio2.openWritingPipe(pipes[0])
 		self.radio.openReadingPipe(1, pipes[1])
-		time.sleep(1)
-		self.radio.printDetails()
+		self.built = True
 
-	def run(self):
+
+	def _run(self):
 		self.radio.startListening()
 		start_time = time.time()
 		while True:
 			while not self.radio.available(0):
-				if time.time()-start_time>30:
-					print('flushing')
-					self.radio.flush_rx()
-					self.radio.flush_tx()
-					self.radio.closeReadingPipe(1)
-					self.radio.powerDown()
-					self.radio = None
+				if time.time()-start_time>60:
+					self.kill()
 					return
 				time.sleep(1/100.0)
 
@@ -62,14 +63,24 @@ class NRF_Receiver(object):
 			ack = [ord(x) for x in 'recvd']
 			self.radio.writeAckPayload(1, ack, len(ack))
 
-try:
-	while True:
-		receiver = NRF_Receiver()
-		receiver.run()
-		receiver = None
-		print('Restarting')
-except Exception as e:
-	print (e)
-	error(e)
+	def kill(self):
+		print('Killing')
+		self.radio.flush_rx()
+		self.radio.flush_tx()
+		self.radio.closeReadingPipe(1)
+		self.radio.powerDown()
+		self.radio = None
+		self.built = False
+
+	def run(self):
+		try:
+			while True:
+				if not self.built: 
+					print('Restarting')
+					self.build()
+				self._run()
+		except Exception as e:
+			print (e)
+			error(e)
 	
 	
