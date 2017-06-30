@@ -21,7 +21,7 @@ time.sleep(1)
 radio.setPayloadSize(32)
 radio.setChannel(0x60)
 
-radio.setDataRate(NRF24.BR_1MBPS)
+radio.setDataRate(NRF24.BR_250KBPS)
 radio.setPALevel(NRF24.PA_MAX)
 radio.setAutoAck(True)
 radio.enableDynamicPayloads()
