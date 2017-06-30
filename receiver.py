@@ -25,12 +25,13 @@ class NRF_Receiver(NRFtxrxBase):
 
 
 	def _default_trigger(self, msg):
+		print('InSubscribed'),
 		print(str(msg))
 
 
 	def subscribe(self, func):
 		self.subscriptions.append(func)
-		
+
 	# def build(self):
 	# 	print('Begining radio')
 	# 	self.radio = NRF24(GPIO, spidev.SpiDev())
