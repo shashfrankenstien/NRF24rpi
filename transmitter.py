@@ -90,7 +90,7 @@ class NRF_Master(NRFtxrxBase):
                 except Exception as e:
                     print (e)
             i+=1
-            time.sleep(0.5)
+            time.sleep(1)
         return None
 
 
