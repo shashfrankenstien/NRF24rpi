@@ -43,16 +43,14 @@ class NRF_Receiver(object):
 		start_time = time.time()
 		while True:
 			while not self.radio.available(0):
-				if time.time()-start_time>10:
+				if time.time()-start_time>30:
 					print('flushing')
 					self.radio.flush_rx()
 					self.radio.flush_tx()
-					start_time = time.time()
-					break
-					# self.radio.closeReadingPipe(1)
-					# self.radio.powerDown()
-					# self.radio = None
-					# return
+					self.radio.closeReadingPipe(1)
+					self.radio.powerDown()
+					self.radio = None
+					return
 				time.sleep(1/100.0)
 
 			recv_buffer = []
