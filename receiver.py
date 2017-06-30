@@ -16,7 +16,7 @@ class NRF_Slave(NRFtxrxBase):
 		self.subscriptions = [self._default_trigger]
 		self.setup_as_reader()
 		self.radio.printDetails()
-		message_tracker = {}
+		self.message_tracker = {}
 		
 
 	def _default_trigger(self, msg):
