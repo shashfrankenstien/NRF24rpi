@@ -59,4 +59,4 @@ class NRF_Master(NRFtxrxBase):
 if __name__ == '__main__':
     t = NRF_Master()
     t.ping(50)
-
+    t.kill()
