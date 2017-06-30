@@ -50,6 +50,7 @@ class NRF_Master(NRFtxrxBase):
                 if ack:
                     try:
                         ID, ACK = ack.split('|')
+                        print (ID, ACK)
                     except Exception as e:
                         print(e)
                     if ID:
