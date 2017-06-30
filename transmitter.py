@@ -54,7 +54,7 @@ class NRF_Master(NRFtxrxBase):
                     if ID and ID in self.message_tracker and self.message_tracker[ID]=='PING' and ACK == 'PONG': 
                         self._incrMsgId()
                         del self.message_tracker[ID]
-                time.sleep(5)
+                time.sleep(1)
                 count += 1
                 if count > n:
                     raise Exception('Ping complete')
