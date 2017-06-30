@@ -24,7 +24,7 @@ class NRF_Master(NRFtxrxBase):
                 except:
                     buf = list('Yo yo honey singh')
                 # send a packet to receiver
-                buf.append(str(count))
+                buf += list(str(count))
                 self.radio.write(buf)
                 print ("Sent:"),
                 print (buf)
