@@ -53,7 +53,7 @@ class NRF_Master(NRFtxrxBase):
                         print (ID, ACK)
                     except Exception as e:
                         print(e)
-                    if ID:
+                    if ID!=None:
                         if ID in self.message_tracker and self.message_tracker[ID]==msg and ACK == ack: 
                             self._incrMsgId()
                             del self.message_tracker[ID]
