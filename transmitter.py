@@ -45,7 +45,7 @@ class NRF_Master(NRFtxrxBase):
         try:
             count = 1
             while True:
-                ack = self._send('PING'): 
+                ack = self._send('PING')
                 if ack:
                     try:
                         ID, ACK = ack.split('|')
