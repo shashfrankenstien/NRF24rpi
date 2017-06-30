@@ -45,6 +45,7 @@ class NRF_Master(NRFtxrxBase):
         try:
             count = 1
             while True:
+                self.message_tracker[ID]=msg
                 ack = self._send(msg)
                 if ack:
                     try:
@@ -53,7 +54,6 @@ class NRF_Master(NRFtxrxBase):
                         print(e)
                     if ID and ID in self.message_tracker and self.message_tracker[ID]==msg and ACK == ack: 
                         self._incrMsgId()
-                        del self.message_tracker[ID]
                 time.sleep(1)
                 count += 1
                 if count > n:
