@@ -48,7 +48,7 @@ class NRF_Receiver(object):
 				time.sleep(1/100.0)
 
 			recv_buffer = []
-			self.radio.read(recv_buffer, radio.getDynamicPayloadSize())
+			self.radio.read(recv_buffer, self.radio.getDynamicPayloadSize())
 			# print("Received: {}".format(str(recv_buffer)))
 
 			# print("Translating..")
