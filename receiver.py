@@ -24,6 +24,8 @@ class NRF_Slave(NRFtxrxBase):
 		print(str(msg))
 		if msg=='PING':
 			return 'PONG'
+		else:
+			return 'RECVD'
 		
 
 	def subscribe(self, func):

@@ -16,8 +16,9 @@ class NRF_Master(NRFtxrxBase):
         self.msg_id = 0
         self.message_tracker = {}
 
-    def _send(self, msg):
-        ID = str(self.msg_id).zfill(3)
+
+    def _send(self, msg, expected_response):
+        ID = self._getCurrentMsgId()
         buf = list('{}|{}'.format(ID, str(msg)))
 
         # send a packet to receiver
@@ -39,13 +40,17 @@ class NRF_Master(NRFtxrxBase):
     def _incrMsgId(self):
         self.msg_id = (self.msg_id+1)%1000
 
+    def _getCurrentMsgId(self):
+        return str(self.msg_id).zfill(3)
 
+        
     def ping(self, n=4, msg='PING', ack='PONG'):
-        ID = None
         try:
             count = 1
             while True:
-                
+                ID=None
+                resp=None
+                ACK=None
                 resp = self._send(msg)
                 if resp:
                     try:
@@ -72,11 +77,25 @@ class NRF_Master(NRFtxrxBase):
 
 
     def send(self, msg, n=3):
-        resp = self._send(str(msg))
+        self._incrMsgId()
+        ID = self._getCurrentMsgId()
+        i=0
+        while i<n:
+            resp = self._send(str(msg))
+            if resp:
+                try:
+                    ack_ID,ACK = resp.split('|')
+                    if ID == ack_ID:
+                        return ACK
+                except Exception as e:
+                    print (e)
+            i+=1
+        return None
 
 
 
 if __name__ == '__main__':
     t = NRF_Master()
-    t.ping(50)
+    t.ping(5)
+    print(t.send('Hello', 4))
     t.kill()
