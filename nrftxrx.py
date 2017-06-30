@@ -1,8 +1,5 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-#
-# Example program to receive packets from the radio link
-#
 
 import RPi.GPIO as GPIO
 GPIO.setmode(GPIO.BCM)
@@ -38,11 +35,13 @@ class NRFtxrxBase(object):
 		self.radio.enableAckPayload()
 
 	def setup_as_reader(self):
+		self.build()
 		# radio2.openWritingPipe(pipes[0])
 		self.radio.openReadingPipe(1, pipes[1])
 		self.built = True
 
 	def setup_as_writer(self):
+		self.build()
 		self.radio.openWritingPipe(pipes[1])
 		self.built = True
 
