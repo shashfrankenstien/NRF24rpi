@@ -22,7 +22,7 @@ class NRFtxrxBase(object):
 
 
 	def build(self):
-		print('Beginning Radio')
+		# print('Beginning Radio')
 		self.radio = NRF24(GPIO, spidev.SpiDev())
 		self.radio.begin(0, 17)
 		time.sleep(0.4)
@@ -48,7 +48,7 @@ class NRFtxrxBase(object):
 
 	def kill(self):
 		if self.built and self.radio:
-			print('Killing')
+			# print('Killing')
 			self.radio.flush_rx()
 			self.radio.flush_tx()
 			self.radio.closeReadingPipe(1)

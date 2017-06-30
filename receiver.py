@@ -38,7 +38,7 @@ class NRF_Slave(NRFtxrxBase):
 		while True:
 			quiet_time = time.time()
 			while not self.radio.available(0):
-				if time.time()-start_time>60 or time.time()-quiet_time>15:
+				if time.time()-start_time>60 or time.time()-quiet_time>8:
 					self.kill()
 					return
 				time.sleep(1/100.0)
@@ -70,7 +70,7 @@ class NRF_Slave(NRFtxrxBase):
 		try:
 			while True:
 				if not self.built: 
-					print('Restarting')
+					print('Restarting..')
 					self.setup_as_reader()
 				self._run()
 		except Exception as e:
