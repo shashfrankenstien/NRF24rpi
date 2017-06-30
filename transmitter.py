@@ -51,6 +51,7 @@ class NRF_Master(NRFtxrxBase):
                     try:
                         ID, ACK = ack.split('|')
                         print (self.message_tracker)
+                        print(ID!=None, ID in self.message_tracker, self.message_tracker[ID]==msg, ACK == ack)
                     except Exception as e:
                         print(e)
                     if ID!=None:
