@@ -65,6 +65,7 @@ try:
 		receiver = NRF_Receiver()
 		receiver.run()
 		receiver = None
+		print('Restarting')
 except Exception as e:
 	print (e)
 	error(e)
