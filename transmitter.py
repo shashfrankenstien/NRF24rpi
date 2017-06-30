@@ -46,10 +46,11 @@ class NRF_Master(NRFtxrxBase):
             count = 1
             while True:
                 
-                ack = self._send(msg)
-                if ack:
+                resp = self._send(msg)
+                if resp:
                     try:
-                        ID, ACK = ack.split('|')
+                        ID, ACK = resp.split('|')
+
                         print (self.message_tracker)
                         print(ID!=None, ID in self.message_tracker, self.message_tracker[ID]==msg, ACK == ack)
                     except Exception as e:
