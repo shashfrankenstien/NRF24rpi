@@ -46,7 +46,7 @@ class NRF_Receiver(object):
 				if time.time()-start_time>30:
 					self.radio.closeReadingPipe(1)
 					# self.radio.end()
-					# self.radio.powerDown()
+					self.radio.powerDown()
 					self.radio = None
 					return
 				time.sleep(1/100.0)
