@@ -17,7 +17,7 @@ class NRF_Master(NRFtxrxBase):
         self.message_tracker = {}
 
 
-    def _send(self, msg, expected_response):
+    def _send(self, msg):
         ID = self._getCurrentMsgId()
         buf = list('{}|{}'.format(ID, str(msg)))
 
