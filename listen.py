@@ -14,42 +14,54 @@ import spidev
 
 pipes = [[0xe7, 0xe7, 0xe7, 0xe7, 0xe7], [0xc2, 0xc2, 0xc2, 0xc2, 0xc2]]
 
-radio = NRF24(GPIO, spidev.SpiDev())
-radio.begin(0, 17)
-time.sleep(1)
-radio.setPayloadSize(32)
-radio.setChannel(0x60)
 
-radio.setDataRate(NRF24.BR_1MBPS)
-radio.setPALevel(NRF24.PA_MAX)
-radio.setAutoAck(True)
-radio.enableDynamicPayloads()
-radio.enableAckPayload()
+class NRF_Receiver(object):
 
-# radio2.openWritingPipe(pipes[0])
-radio.openReadingPipe(1, pipes[1])
-time.sleep(1)
-radio.printDetails()
+	def __init__(self):
+		self.radio = NRF24(GPIO, spidev.SpiDev())
+		self.radio.begin(0, 17)
+		time.sleep(1)
+		self.radio.setPayloadSize(32)
+		self.radio.setChannel(0x60)
 
-radio.startListening()
+		self.radio.setDataRate(NRF24.BR_1MBPS)
+		self.radio.setPALevel(NRF24.PA_MAX)
+		self.radio.setAutoAck(True)
+		self.radio.enableDynamicPayloads()
+		self.radio.enableAckPayload()
+
+		# radio2.openWritingPipe(pipes[0])
+		self.radio.openReadingPipe(1, pipes[1])
+		time.sleep(1)
+		self.radio.printDetails()
+
+	def run(self)
+		self.radio.startListening()
+		while True:
+			start_time = time.time()
+			while not self.radio.available(0):
+				if time.time()-start_time>30:
+					self.radio.closeReadingPipe(1)
+					self.radio.end()
+					self.radio.powerDown()
+					return
+				time.sleep(1/100.0)
+
+			recv_buffer = []
+			self.radio.read(recv_buffer, radio.getDynamicPayloadSize())
+			# print("Received: {}".format(str(recv_buffer)))
+
+			# print("Translating..")
+			print(''.join([chr(n) for n in recv_buffer if n >= 32 and n <= 126]))
+			ack = [ord(x) for x in 'recvd']
+			self.radio.writeAckPayload(1, ack, len(ack))
 
 try:
 	while True:
-
-		while not radio.available(0):
-			time.sleep(1/100.0)
-
-		recv_buffer = []
-		radio.read(recv_buffer, radio.getDynamicPayloadSize())
-		# print("Received: {}".format(str(recv_buffer)))
-
-		# print("Translating..")
-		print(''.join([chr(n) for n in recv_buffer if n >= 32 and n <= 126]))
-		ack = [ord(x) for x in 'recvd']
-		radio.writeAckPayload(1, ack, len(ack))
-
+		receiver = NRF_Receiver()
+		receiver.run()
+		receiver = None
 except Exception as e:
 	print (e)
-	radio.closeReadingPipe(1)
-	radio.end()
+	
 	
