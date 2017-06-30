@@ -64,13 +64,15 @@ class NRF_Receiver(object):
 			self.radio.writeAckPayload(1, ack, len(ack))
 
 	def kill(self):
-		print('Killing')
-		self.radio.flush_rx()
-		self.radio.flush_tx()
-		self.radio.closeReadingPipe(1)
-		self.radio.powerDown()
-		self.radio = None
-		self.built = False
+		if self.built:
+			print('Killing')
+			self.radio.flush_rx()
+			self.radio.flush_tx()
+			self.radio.closeReadingPipe(1)
+			self.radio.powerDown()
+			self.radio = None
+			self.built = False
+			
 
 	def run(self):
 		try:
@@ -80,7 +82,11 @@ class NRF_Receiver(object):
 					self.build()
 				self._run()
 		except Exception as e:
-			print (e)
+			self.kill()
 			error(e)
+
+if __name__ == '__main__':
+	r = NRF_Receiver()
+	r.run()
 	
 	
