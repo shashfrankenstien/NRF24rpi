@@ -19,11 +19,12 @@ class NRF_Slave(NRFtxrxBase):
 		self.message_tracker = {}
 		
 
-	def _default_trigger(self, msg):
-		if msg=='PING':
-			return 'PONG'
+	def _default_trigger(self, msg, ID):
 		print('Built-in >'),
 		print(str(msg))
+		if msg=='PING':
+			return 'PONG'
+		
 
 	def subscribe(self, func):
 		self.subscriptions.append(func)
@@ -56,7 +57,7 @@ class NRF_Slave(NRFtxrxBase):
 
 			for func in self.subscriptions:
 				try:
-					self.message_tracker[ID] = func(msg)
+					self.message_tracker[ID] = func(msg, ID)
 				except Exception as e:
 					print(e)
 					self.message_tracker[ID] = str(e)

@@ -40,18 +40,18 @@ class NRF_Master(NRFtxrxBase):
         self.msg_id = (self.msg_id+1)%1000
 
 
-    def ping(self, n=4):
+    def ping(self, n=4, msg='PING', ack='PONG'):
         ID = None
         try:
             count = 1
             while True:
-                ack = self._send('PING')
+                ack = self._send(msg)
                 if ack:
                     try:
                         ID, ACK = ack.split('|')
                     except Exception as e:
                         print(e)
-                    if ID and ID in self.message_tracker and self.message_tracker[ID]=='PING' and ACK == 'PONG': 
+                    if ID and ID in self.message_tracker and self.message_tracker[ID]==msg and ACK == ack: 
                         self._incrMsgId()
                         del self.message_tracker[ID]
                 time.sleep(1)
