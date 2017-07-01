@@ -47,7 +47,10 @@ class NRF_Slave(NRFtxrxBase):
 			self.radio.read(recv_buffer, self.radio.getDynamicPayloadSize())
 
 			string = ''.join([chr(n) for n in recv_buffer if n >= 32 and n <= 126])
-			ID, msg = string.split('|')
+			try:
+				ID, msg = string.split('|')
+			except Exception as e:
+				print (e)
 			
 			if ID not in self.message_tracker:
 				ack = [ord(x) for x in '{}|WAIT'.format(ID)]
