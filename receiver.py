@@ -36,7 +36,9 @@ class NRF_Slave(NRFtxrxBase):
 		self.radio.startListening()
 		start_time = time.time()
 		ID = None
+		msg = None
 		while True:
+			print self.message_tracker
 			quiet_time = time.time()
 			while not self.radio.available(0):
 				if time.time()-start_time>60 or time.time()-quiet_time>8:
