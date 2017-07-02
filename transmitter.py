@@ -88,7 +88,7 @@ class NRF_Master(NRFtxrxBase):
                 try:
                     ack_ID,ACK = resp.split('|')
                     if ACK != 'WAIT':
-                        print ('resp={}'.format(ACKs))
+                        print ('resp={}'.format(ACK))
                         return ACK
                 except Exception as e:
                     print (e)
