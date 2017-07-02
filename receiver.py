@@ -35,6 +35,7 @@ class NRF_Slave(NRFtxrxBase):
 	def _run(self):
 		self.radio.startListening()
 		start_time = time.time()
+		ID = None
 		while True:
 			quiet_time = time.time()
 			while not self.radio.available(0):
