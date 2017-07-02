@@ -84,6 +84,7 @@ class NRF_Master(NRFtxrxBase):
         i=0
         while i<n:
             resp = self._send(str(msg))
+            print ('resp={}'.format(resp))
             if resp:
                 try:
                     ack_ID,ACK = resp.split('|')
